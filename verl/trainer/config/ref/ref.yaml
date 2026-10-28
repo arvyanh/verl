@@ -104,10 +104,10 @@ profiler:
       # options: cuda, cpu, memory, shapes, stack
       # CPU activity is collected either way, since the per-stage markers (compute_ref_log_prob,
       # ...) are CPU-side events and a device-only trace cannot locate them.
-      contents: []
+      contents: ${oc.select:global_profiler.global_tool_config.torch.contents,[]}
 
       # True for each task has its own database, False for all tasks in one training step share one database.
-      discrete: false
+      discrete: ${oc.select:global_profiler.global_tool_config.torch.discrete,false}
 
       # Optional torch.profiler.schedule over update mini-batches (see actor.profiler for the full
       # semantics). The reference model only runs log-prob forwards -- it has no update loop and so

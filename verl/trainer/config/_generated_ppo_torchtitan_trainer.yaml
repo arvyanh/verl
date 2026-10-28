@@ -122,8 +122,8 @@ actor_rollout_ref:
           discrete: false
         torch:
           _target_: verl.utils.profiler.config.TorchProfilerToolConfig
-          contents: []
-          discrete: false
+          contents: ${oc.select:global_profiler.global_tool_config.torch.contents,[]}
+          discrete: ${oc.select:global_profiler.global_tool_config.torch.discrete,false}
           schedule:
             _target_: verl.utils.profiler.config.TorchProfilerScheduleConfig
             skip_first: 0
@@ -230,8 +230,8 @@ actor_rollout_ref:
           discrete: false
         torch:
           _target_: verl.utils.profiler.config.TorchProfilerToolConfig
-          contents: []
-          discrete: false
+          contents: ${oc.select:global_profiler.global_tool_config.torch.contents,[]}
+          discrete: ${oc.select:global_profiler.global_tool_config.torch.discrete,false}
           schedule:
             _target_: verl.utils.profiler.config.TorchProfilerScheduleConfig
             skip_first: 0
@@ -595,8 +595,8 @@ critic:
         discrete: false
       torch:
         _target_: verl.utils.profiler.config.TorchProfilerToolConfig
-        contents: []
-        discrete: false
+        contents: ${oc.select:global_profiler.global_tool_config.torch.contents,[]}
+        discrete: ${oc.select:global_profiler.global_tool_config.torch.discrete,false}
         schedule:
           _target_: verl.utils.profiler.config.TorchProfilerScheduleConfig
           skip_first: 0

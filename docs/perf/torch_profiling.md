@@ -1,6 +1,6 @@
 # PyTorch Profiling in verl
 
-Last updated: 08/04/2026.
+Last updated: 10/28/2026.
 
 This guide explains how to use the native [PyTorch Profiler](https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html) for profiling verl training runs.
 
@@ -44,6 +44,12 @@ You can customize the PyTorch Profiler behavior using the following fields under
 * **`profile_token_start`**: Effective only for the rollout role; defines the start response-token index for rollout decoding collection. It is applied only when valid (0-based, `profile_token_end > profile_token_start`, and within response length).
 * **`profile_token_end`**: Effective only for the rollout role; defines the stop response-token index (exclusive) for rollout decoding collection. It is applied only when valid (0-based, `profile_token_end > profile_token_start`, and within response length).
 * **`schedule`**: Optional [`torch.profiler.schedule`](https://pytorch.org/docs/stable/profiler.html#torch.profiler.schedule) over the **update loop's mini-batches**, so an update stage with many identical mini-batches does not bloat its trace. `verl` advances it once per update mini-batch; the log-prob forwards and rollout are never sub-sampled. Enabled only when `active > 0`. The full `skip_first`/`wait`/`warmup`/`active`/`repeat` selects which update mini-batches are captured in both modes. In **continuous mode** (`discrete: False`) skipping ahead to a later mini-batch also drops the earlier stages (rollout, log-prob) from that one shared trace; leave `skip_first`/`wait`/`warmup` at 0 to keep them. In **`discrete: True` mode** the update stage is isolated in its own trace, so the other stages keep their own full traces regardless. It never emits torch's `ProfilerStep#<n>` rows. See [Scheduling the update loop's mini-batches](#3-scheduling-the-update-loops-mini-batches).
+
+`contents` and `discrete` can also be set once for every role at
+`global_profiler.global_tool_config.torch.contents` /
+`global_profiler.global_tool_config.torch.discrete` (e.g. via
+`++global_profiler.global_tool_config.torch.contents=[cpu,cuda,stack]`); each role's
+`tool_config.torch` inherits that value unless it is overridden at the role level.
 
 
 ## Examples
